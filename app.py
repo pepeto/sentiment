@@ -34,6 +34,10 @@ if st.button("Obtener noticias"):
         # DataFrame de las primeras 10 noticias
         df = pd.DataFrame(news_items).head(10)
 
+        # Mostrar muestra cruda de los datos descargados
+        st.subheader("Muestra de datos crudos descargados")
+        st.write(df)
+
         # Convertir pubDate (ISO8601) a datetime
         df["pubDate"] = pd.to_datetime(df["pubDate"], utc=True)
 
