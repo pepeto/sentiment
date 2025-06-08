@@ -31,6 +31,11 @@ if st.button("Obtener noticias"):
         st.warning("No se encontraron noticias para el ticker proporcionado o la respuesta está vacía.")
         st.warning("No se encontraron noticias para el ticker proporcionado.")
     else:
+        # Mostrar DataFrame solo con el campo content para verificación
+        content_df = pd.DataFrame([item.get("content", "") for item in news_items], columns=["content"]).head(10)
+        st.subheader("Muestra del campo 'content' de las noticias")
+        st.dataframe(content_df)
+
         # DataFrame de las primeras 10 noticias
         df = pd.DataFrame(news_items).head(10)
 
