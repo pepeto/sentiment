@@ -33,7 +33,6 @@ if st.button("Obtener noticias"):
         
         # Manejar columna de fecha (yfinance news puede usar 'pubDate' o 'providerPublishTime')
         if "pubDate" in df.columns:
-            # Convertir pubDate a datetime
             df["pubDate"] = pd.to_datetime(df["pubDate"])
         elif "providerPublishTime" in df.columns:
             df["pubDate"] = pd.to_datetime(df["providerPublishTime"], unit="s")
@@ -41,9 +40,9 @@ if st.button("Obtener noticias"):
             df["pubDate"] = pd.NaT
             st.warning("No se encontró campo de fecha en los datos de noticias.")
 
-        # Análisis de sentimiento y nivel de confianza
-        df["sentiment"] = df["summary"].apply(lambda x: classifier(x)[0]["label"].lower())
-        df["confidence"] = df["summary"].apply(lambda x: classifier(x)[0]["score"])
+        # Análisis de sentimiento basado en el título
+        df["sentiment"] = df["title"].apply(lambda x: classifier(x)[0]["label"].lower())
+        df["confidence"] = df["title"].apply(lambda x: classifier(x)[0]["score"])
 
         # Mostrar tabla de resultados
         st.subheader("Resultados de las primeras 10 noticias")
