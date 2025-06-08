@@ -23,9 +23,12 @@ ticker = st.text_input("Ingrese el ticker (ej: AAPL, GOOGL, QQQ)", value="QQQ").
 if st.button("Obtener noticias"):
     with st.spinner("Descargando y procesando noticias..."):
         data = yf.Ticker(ticker)
-        news_items = data.news
+        # Obtener noticias y chequear que no esté vacío
+        news_items = getattr(data, 'news', []) or []
 
+    # Verificar contenido de news_items
     if not news_items:
+        st.warning("No se encontraron noticias para el ticker proporcionado o la respuesta está vacía.")
         st.warning("No se encontraron noticias para el ticker proporcionado.")
     else:
         # DataFrame de las primeras 10 noticias
