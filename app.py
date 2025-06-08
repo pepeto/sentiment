@@ -31,16 +31,12 @@ if st.button("Obtener noticias"):
         # DataFrame de las primeras 10 noticias
         df = pd.DataFrame(news_items).head(10)
         
-        # Determinar la columna de fecha
-        if "providerPublishTime" in df.columns:
-            time_col = "providerPublishTime"
-        elif "provider_publish_time" in df.columns:
-            time_col = "provider_publish_time"
-        else:
-            time_col = None
-
-        if time_col:
-            df["pubDate"] = pd.to_datetime(df[time_col], unit="s")
+        # Manejar columna de fecha (yfinance news puede usar 'pubDate' o 'providerPublishTime')
+        if "pubDate" in df.columns:
+            # Convertir pubDate a datetime
+            df["pubDate"] = pd.to_datetime(df["pubDate"])
+        elif "providerPublishTime" in df.columns:
+            df["pubDate"] = pd.to_datetime(df["providerPublishTime"], unit="s")
         else:
             df["pubDate"] = pd.NaT
             st.warning("No se encontró campo de fecha en los datos de noticias.")
